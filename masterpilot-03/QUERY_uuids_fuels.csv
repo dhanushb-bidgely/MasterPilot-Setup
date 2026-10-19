@@ -1,0 +1,16 @@
+uuid,status,valid_meter_fuels,has_NSM-WATER,has_AMI-ELECTRIC
+e8d09495-5107-44ce-80a1-699c04aad575,success,AMI-ELECTRIC|NSM-GAS,False,True
+7d06cae0-91aa-4caa-af71-c19187266596,success,AMI-ELECTRIC|NSM-GAS,False,True
+58446d5a-9f7d-42fb-af4c-162d31aa8a1e,success,AMI-ELECTRIC|NSM-GAS,False,True
+96d86e38-6087-4fbe-bfed-8d17438bf454,success,AMI-ELECTRIC|NSM-GAS,False,True
+8ba17081-5f34-407b-a61b-f0d38c952a10,success,AMI-ELECTRIC|NSM-GAS,False,True
+9696be8b-0e16-49ce-a6c5-a99802c64d86,success,AMI-ELECTRIC|NSM-GAS,False,True
+eab9affd-5121-4c30-95c3-ebf513df0387,success,AMI-ELECTRIC|NSM-GAS,False,True
+05a21aa0-c730-4b8d-a6ef-4cfeb35b75bd,success,AMI-ELECTRIC|NSM-GAS,False,True
+c7d6a36e-e72f-4c77-918e-3c28c181ed63,success,AMI-ELECTRIC|NSM-GAS,False,True
+211022ae-41ee-4f4a-b7e4-5c2b212f2a77,success,AMI-ELECTRIC|NSM-GAS,False,True
+310a733a-3819-40eb-bd4c-cad2c1b73231,success,AMI-ELECTRIC|NSM-GAS,False,True
+cd5f5741-a16f-4247-a41c-0016e9f036e2,success,AMI-ELECTRIC|NSM-GAS,False,True
+af830e96-15cc-4e55-a312-c989baac2413,success,AMI-ELECTRIC|NSM-GAS,False,True
+1056bb74-fdf3-4a02-a8d0-0c0c3e48ddd1,success,AMI-ELECTRIC|NSM-GAS,False,True
+e75166f2-6a32-442c-acdd-649f6194a60d,success,AMI-ELECTRIC|NSM-GAS,False,True

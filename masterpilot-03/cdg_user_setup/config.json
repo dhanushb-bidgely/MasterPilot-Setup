@@ -1,0 +1,10 @@
+{
+  "DETO_BASE_URL": "https://deto-productqa-api.bidgely.com",
+  "DETO_ACCESS_TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNzkxOTc0OTY2LCJleHAiOjE3OTQ1NjY5NjZ9.jg6RlF13weg1zti9hAtjY5ORu-2E273by9CGZLR_8K4",
+  "UTILITY_NAME": "masterpilot-88003",
+  "DESTINATION_PILOT_ID": "88003",
+  "DESTINATION_ENVIRONMENT": "productqa",
+  "FILE_UPLOAD_BUCKET": "bidgely-masterpilot-resi-ca-productqa",
+  "SOURCE_COUNTRY": "US",
+  "TIMEOUT": 60
+}

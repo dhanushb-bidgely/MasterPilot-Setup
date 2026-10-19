@@ -1,0 +1,173 @@
+[
+  {
+    "month": "202501",
+    "raw_delivered_kWh": 0.3553,
+    "invoice_delivered_kWh": 95.89,
+    "ratio_invoice_over_raw": 269.9,
+    "raw_received_kWh": -0.2328,
+    "invoice_received_kWh": -9.59,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202502",
+    "raw_delivered_kWh": 0.3113,
+    "invoice_delivered_kWh": 175.09,
+    "ratio_invoice_over_raw": 562.5,
+    "raw_received_kWh": -0.2018,
+    "invoice_received_kWh": -17.51,
+    "raw_rows": 2688
+  },
+  {
+    "month": "202503",
+    "raw_delivered_kWh": -0.0668,
+    "invoice_delivered_kWh": 92.95,
+    "ratio_invoice_over_raw": -1392.2,
+    "raw_received_kWh": -0.2619,
+    "invoice_received_kWh": -9.29,
+    "raw_rows": 2968
+  },
+  {
+    "month": "202504",
+    "raw_delivered_kWh": 0.0506,
+    "invoice_delivered_kWh": 225.87,
+    "ratio_invoice_over_raw": 4460.8,
+    "raw_received_kWh": -0.2506,
+    "invoice_received_kWh": -22.59,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202505",
+    "raw_delivered_kWh": -0.0313,
+    "invoice_delivered_kWh": 234.94,
+    "ratio_invoice_over_raw": -7516.0,
+    "raw_received_kWh": -0.2687,
+    "invoice_received_kWh": -23.49,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202506",
+    "raw_delivered_kWh": 0.5185,
+    "invoice_delivered_kWh": 142.42,
+    "ratio_invoice_over_raw": 274.7,
+    "raw_received_kWh": -0.3011,
+    "invoice_received_kWh": -14.24,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202507",
+    "raw_delivered_kWh": 0.6917,
+    "invoice_delivered_kWh": 104.86,
+    "ratio_invoice_over_raw": 151.6,
+    "raw_received_kWh": -0.3516,
+    "invoice_received_kWh": -10.49,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202508",
+    "raw_delivered_kWh": 0.4399,
+    "invoice_delivered_kWh": 144.08,
+    "ratio_invoice_over_raw": 327.5,
+    "raw_received_kWh": -0.3258,
+    "invoice_received_kWh": -14.41,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202509",
+    "raw_delivered_kWh": 0.462,
+    "invoice_delivered_kWh": 229.15,
+    "ratio_invoice_over_raw": 496.0,
+    "raw_received_kWh": -0.3161,
+    "invoice_received_kWh": -22.92,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202510",
+    "raw_delivered_kWh": 0.3134,
+    "invoice_delivered_kWh": 179.03,
+    "ratio_invoice_over_raw": 571.3,
+    "raw_received_kWh": -0.2604,
+    "invoice_received_kWh": -17.9,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202511",
+    "raw_delivered_kWh": 0.2865,
+    "invoice_delivered_kWh": 192.0,
+    "ratio_invoice_over_raw": 670.1,
+    "raw_received_kWh": -0.2227,
+    "invoice_received_kWh": -19.2,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202512",
+    "raw_delivered_kWh": 0.4375,
+    "invoice_delivered_kWh": 230.4,
+    "ratio_invoice_over_raw": 526.6,
+    "raw_received_kWh": -0.2382,
+    "invoice_received_kWh": -23.04,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202601",
+    "raw_delivered_kWh": 0.4704,
+    "invoice_delivered_kWh": 191.02,
+    "ratio_invoice_over_raw": 406.1,
+    "raw_received_kWh": -0.252,
+    "invoice_received_kWh": -19.1,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202602",
+    "raw_delivered_kWh": 0.1089,
+    "invoice_delivered_kWh": 92.08,
+    "ratio_invoice_over_raw": 845.8,
+    "raw_received_kWh": -0.2382,
+    "invoice_received_kWh": -9.21,
+    "raw_rows": 2688
+  },
+  {
+    "month": "202603",
+    "raw_delivered_kWh": 0.151,
+    "invoice_delivered_kWh": 173.52,
+    "ratio_invoice_over_raw": 1149.4,
+    "raw_received_kWh": -0.27,
+    "invoice_received_kWh": -17.35,
+    "raw_rows": 2968
+  },
+  {
+    "month": "202604",
+    "raw_delivered_kWh": 0.1059,
+    "invoice_delivered_kWh": 217.08,
+    "ratio_invoice_over_raw": 2049.0,
+    "raw_received_kWh": -0.266,
+    "invoice_received_kWh": -21.71,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202605",
+    "raw_delivered_kWh": 0.2604,
+    "invoice_delivered_kWh": 153.72,
+    "ratio_invoice_over_raw": 590.3,
+    "raw_received_kWh": -0.2811,
+    "invoice_received_kWh": -15.37,
+    "raw_rows": 2976
+  },
+  {
+    "month": "202606",
+    "raw_delivered_kWh": 0.7021,
+    "invoice_delivered_kWh": 95.89,
+    "ratio_invoice_over_raw": 136.6,
+    "raw_received_kWh": -0.3288,
+    "invoice_received_kWh": -9.59,
+    "raw_rows": 2880
+  },
+  {
+    "month": "202607",
+    "raw_delivered_kWh": 0.8918,
+    "invoice_delivered_kWh": 175.09,
+    "ratio_invoice_over_raw": 196.3,
+    "raw_received_kWh": -0.3649,
+    "invoice_received_kWh": -17.51,
+    "raw_rows": 2677
+  }
+]

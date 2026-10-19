@@ -1,0 +1,60 @@
+{
+  "_comment": "DA-1795 disagg / solar configs. IMPORTANT: as currently set on pilot 73969 these DISABLE solar disagg, which is why Energy Flow shows 0/0/0 and the appliance pie shows NaN. Values below are AS-IS on 73969 (verified 24 Aug 2026). See 00_README section 'Energy Flow decision' before reusing.",
+  "blocks": [
+    {
+      "configType": "disagg_preference",
+      "configKVs": [
+        {
+          "configKey": "enable_solar",
+          "configVal": "false",
+          "configDocumentation": "AS-IS on 73969. Set true if the pilot needs estimated solar generation (Energy Flow, appliance pie). Leave false only if ingesting an actual SOLAR_GENERATION stream instead.",
+          "configRegex": "true|false",
+          "configDataType": "BOOLEAN"
+        },
+        {
+          "configKey": "trigger_ami_disagg_for_solar_user",
+          "configVal": "false",
+          "configDocumentation": "AS-IS on 73969. Must be true for solar users to get any appliance disagg output.",
+          "configRegex": "true|false",
+          "configDataType": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "configType": "hybrid_moderation",
+      "configKVs": [
+        {
+          "configKey": "disagg_solar_estimation_data",
+          "configVal": "false",
+          "configDocumentation": "AS-IS on 73969. Feeds solar estimation into hybrid output.",
+          "configRegex": "true|false",
+          "configDataType": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "configType": "launchpad_ingestion_configs",
+      "configKVs": [
+        {
+          "configKey": "solar_clustering_enabled",
+          "configVal": "false",
+          "configDocumentation": "AS-IS on 73969. Whether solar users get a separate disagg cluster.",
+          "configRegex": "true|false",
+          "configDataType": "BOOLEAN"
+        }
+      ]
+    },
+    {
+      "configType": "meta_data",
+      "configKVs": [
+        {
+          "configKey": "allow_negative_costs_for_non_solar",
+          "configVal": "false",
+          "configDocumentation": "AS-IS on 73969. Solar users can have negative costs regardless; this governs non-solar.",
+          "configRegex": "true|false",
+          "configDataType": "BOOLEAN"
+        }
+      ]
+    }
+  ]
+}

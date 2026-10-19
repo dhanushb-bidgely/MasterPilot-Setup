@@ -1,0 +1,29 @@
+{
+  "_comment": "DA-1795 frontend (CX) configs for an MDS solar pilot. Section A = verified present and delivered to the browser on 73969 (24 Aug 2026). Section B = read by the deployed bundle but NEVER SET on 73969 - these are the ones to add. Section B values are RECOMMENDED, not yet verified in a live UI (the config write was blocked in the analysis session).",
+  "configType": "frontend_configs",
+  "_sectionA_verified_present": [
+    { "configKey": "dashboard.enable_web", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "Master web-dashboard enable. Without it the dashboard crashes." },
+    { "configKey": "DASHBOARD.INSIGHTS.USAGE.VERSION", "configVal": "V3", "configDataType": "TEXT", "configDocumentation": "Energy Details version. Already V3 - the remaining D+R chart bugs are NOT caused by this." },
+    { "configKey": "DASHBOARD.INSIGHTS.MONTHLY_SUMMARY.VERSION", "configVal": "V3", "configDataType": "TEXT", "configDocumentation": "Monthly Summary version. V3 is what renders the working Energy Received / Energy Delivered split." },
+    { "configKey": "DASHBOARD.INSIGHTS.MONTHLY_SUMMARY.FULL_BILL.ENABLED", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "Enables the full bill breakdown block." },
+    { "configKey": "DASHBOARD.INSIGHTS.MONTHLY_SUMMARY.FULL_BILL.ENABLED_SOLAR", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "Solar variant of the above. Required for solar users." },
+    { "configKey": "DASHBOARD.INSIGHTS.USAGE_V2.ALLOWED_VIEWS_SOLAR", "configVal": "[\"COST\",\"USAGE\"]", "configDataType": "TEXT", "configDocumentation": "MANDATORY for solar users. The bundle does JSON.parse on this key; if it is missing the Insights page white-screens on #root." },
+    { "configKey": "DASHBOARD.INSIGHTS.USAGE_V2.NON_DISAGG.ALLOWED_VIEWS_SOLAR", "configVal": "[\"COST\",\"USAGE\"]", "configDataType": "TEXT", "configDocumentation": "MANDATORY for solar + non-disagg users (which is 73969's state). Same JSON.parse white-screen risk." },
+    { "configKey": "DASHBOARD.INSIGHTS.USAGE_V2.NON_DISAGG.ALLOWED_VIEWS", "configVal": "[\"COST\",\"USAGE\"]", "configDataType": "TEXT", "configDocumentation": "Non-solar fallback of the above." },
+    { "configKey": "dashboard.usage.modes.ami.solar", "configVal": "[\"YEAR\",\"MONTH\"]", "configDataType": "TEXT", "configDocumentation": "Which Energy Details modes a solar user sees. NOTE: MONTH currently renders broken because of the daily-aggregation defect (D1). Consider [\"YEAR\"] until D1 is fixed." },
+    { "configKey": "dashboard.usage.defaultMode.ami.solar", "configVal": "YEAR", "configDataType": "TEXT", "configDocumentation": "Landing mode for solar users. YEAR is the only mode that currently works." },
+    { "configKey": "dashboard.usage.defaultView.ami.solar", "configVal": "USAGE", "configDataType": "TEXT", "configDocumentation": "Landing view for solar users." },
+    { "configKey": "DASHBOARD.CURRENCY_STRING", "configVal": "$", "configDataType": "TEXT", "configDocumentation": "Currency symbol. Missing value causes render errors." },
+    { "configKey": "DASHBOARD.USAGE_CHART.DATE_FORMAT", "configVal": "MONTH_DAY_SPACE", "configDataType": "TEXT", "configDocumentation": "Chart axis date format." },
+    { "configKey": "INSIGHTS.DATE_FORMATS.TIME.PEAK_DEMAND", "configVal": "hh:mm A", "configDataType": "TEXT", "configDocumentation": "Required to avoid a peak-demand render error." },
+    { "configKey": "INSIGHTS.USAGE.PLOT_ON_INTERVAL_END_DATE", "configVal": "false", "configDataType": "BOOLEAN", "configDocumentation": "Plot alignment." },
+    { "configKey": "INSIGHTS.USAGE.PEAK_DEMAND_APPLIANCE.SHOW", "configVal": "false", "configDataType": "BOOLEAN", "configDocumentation": "Hide peak-demand appliance block." }
+  ],
+  "_sectionB_MISSING_add_these": [
+    { "configKey": "dashboard.solar_billing_type", "configVal": "invoice", "configDataType": "TEXT", "configDocumentation": "HIGH PRIORITY. Read by getSolarBillingType() in the deployed bundle. When 'invoice' the Home layout uses BILL_HISTORY; when unset/other it routes to NET_BILL_HISTORY, which has NO entry in dynamic_layout_configs, so the Home Usage History widget silently disappears. This is the confirmed cause of the missing Home Usage History on 73969." },
+    { "configKey": "DASHBOARD.USAGE_SUMMARY_V2.SHOW_SOLAR_STREAM_COST", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "HIGH PRIORITY. Gates the two-stream Energy Received / Energy Delivered card on the Home Bill Summary widget. Unset on 73969 and the Home Bill Summary does not render at all." },
+    { "configKey": "DASHBOARD.MONTHLY_SUMMARY.V3.SHOW_SOLAR_STREAM_COST", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "Monthly Summary V3 solar stream card. The card renders anyway on 73969, but set it explicitly rather than relying on the default." },
+    { "configKey": "web_accessibility", "configVal": "true", "configDataType": "BOOLEAN", "configDocumentation": "Read by the bundle's accessibility helper. Unset on 73969 and contributes to the AC 6.3 ADA failure. NOTE: setting this alone does NOT fix ADA - the Highcharts accessibility.js module is not loaded at all, which is a Web-team code fix." },
+    { "configKey": "dashboard.disagg_enabled_mappings", "configVal": "", "configDataType": "TEXT", "configDocumentation": "LOW PRIORITY / currently benign. Chooses ALLOWED_VIEWS vs NON_DISAGG.ALLOWED_VIEWS. Unset falls through to the NON_DISAGG keys, which are set, so behaviour is correct today. Set it only when disagg is turned on. Value shape is a segment/type/fuel mapping - confirm with Web before setting." }
+  ]
+}

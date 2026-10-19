@@ -29,6 +29,17 @@ cdg_user_setup/to_create_*.csv
 cdg_user_setup/remaining_*.csv
 cdg_user_setup/ported_uuids*.csv
 cdg_user_setup/ported_uuids*.txt
+
+# MDS automation run output: generated launchpad files (multi-MB RAW), rendered
+# emails, PDFs and manifests carrying QA identities -- all reproducible per run.
+MDS_AUTOMATION/results/
+MASTERPILOT-02/MDS_AUTOMATION/results/
+
+# Raw jumphost/terminal transcripts: tens of MB, carry host IPs and QA identities,
+# and are a point-in-time capture rather than anything the repo builds on.
+MASTERPILOT-02/session-logs/
+logs.txt
+*.logs
 cdg_user_setup/ported_user_metadata*.csv
 cdg_user_setup/source_dev_uat_uuids.csv
 cdg_user_setup/source_dev_uat_pqa_uuids.csv

@@ -1,0 +1,167 @@
+{
+  "_comment": "DA-1795 file-format configs. These are NOT MDS-specific, but the ingestion files in 02-ingestion-files/ will only parse if these match. Verified live on pilot 73969, 24 Aug 2026.",
+  "configType": "launchpad_ingestion_configs",
+  "configKVs": [
+    {
+      "configKey": "raw_data_granularity",
+      "configVal": "900",
+      "configDocumentation": "Raw interval in seconds. 900 = 15-minute. The supplied RAW files are 15-minute (96 rows/day), so this must be 900.",
+      "configRegex": "[0-9]+",
+      "configDataType": "INTEGER"
+    },
+    {
+      "configKey": "raw_data_date_format",
+      "configVal": "yyyyMMddHHmmss",
+      "configDocumentation": "Timestamp format in RAW files. Supplied files use e.g. 20240923211500.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "raw_data_date_type",
+      "configVal": "DATE",
+      "configDocumentation": "RAW timestamp is a formatted date, not an epoch.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "raw_data_time_unit",
+      "configVal": "S",
+      "configDocumentation": "Time unit for raw granularity - S = seconds.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "raw_data_consumption_unit_map",
+      "configVal": "{\"ELECTRIC\": \"Wh\", \"GAS\": \"ccf\"}",
+      "configDocumentation": "RAW values are Wh for electric. IMPORTANT: RAW is Wh while INVOICE is kWh - do not conflate.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "raw_data_parser_delimiter",
+      "configVal": "\\|",
+      "configDocumentation": "Pipe delimiter for RAW files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "invoice_data_date_format",
+      "configVal": "yyyy-MM-dd",
+      "configDocumentation": "Date format in INVOICE files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "invoice_data_date_type",
+      "configVal": "DATE",
+      "configDocumentation": "Invoice dates are formatted dates.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "invoice_data_consumption_unit_map",
+      "configVal": "{\"ELECTRIC\": \"kWh\", \"GAS\": \"ccf\"}",
+      "configDocumentation": "INVOICE values are kWh for electric.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "invoice_parser_delimiter",
+      "configVal": "\\|",
+      "configDocumentation": "Pipe delimiter for INVOICE files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "bc_schedule_date_format",
+      "configVal": "yyyy-MM-dd",
+      "configDocumentation": "Date format in BC_SCHEDULE files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "bc_schedule_parser_delimiter",
+      "configVal": "\\|",
+      "configDocumentation": "Pipe delimiter for BC_SCHEDULE files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "user_creation_parser_delimiter",
+      "configVal": "\\|",
+      "configDocumentation": "Pipe delimiter for USERENROLL files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "user_enrollment_date_format",
+      "configVal": "yyyy-MM-dd",
+      "configDocumentation": "Date format in USERENROLL / METERENROLL files.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "user_identifier_field_format",
+      "configVal": "${pilot_id}_${customer_id}",
+      "configDocumentation": "Builds partnerUserId. For Jorge this yields 73969_7185227854.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "home_identifier_field_format",
+      "configVal": "${pilot_id}_${customer_id}_${contract_id}_${premise_id}",
+      "configDocumentation": "Builds premiseId. For Jorge: 73969_7185227854_5562650170_0196882462.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "bidgely_identifier_format",
+      "configVal": "version2",
+      "configDocumentation": "Identifier scheme version.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "supported_meter_types",
+      "configVal": "[\"AMI\", \"NSM\"]",
+      "configDocumentation": "Meter types accepted. Supplied files are AMI.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "handleBCTransition",
+      "configVal": "true",
+      "configDocumentation": "Allows bill-cycle transitions during ingest.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "default_invoice_code",
+      "configVal": "CHANGING_BILL_CYCLE_AND_CHANGING_CONSUMPTION",
+      "configDocumentation": "Invoice handling mode.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "default_user_segment",
+      "configVal": "RESIDENTIAL",
+      "configDocumentation": "Drives which dynamic_layout_configs block applies (RESIDENTIAL_ELECTRIC_AMI).",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "validate_bill_cycle_code",
+      "configVal": "false",
+      "configDocumentation": "Kept false for this test pilot.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "validate_bill_cycle_code_in_invoice",
+      "configVal": "false",
+      "configDocumentation": "Kept false for this test pilot.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    }
+  ]
+}

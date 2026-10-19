@@ -1,0 +1,6 @@
+{
+  "_comment": "The pilots this project directory is allowed to act on. mds_target.bootstrap() refuses any profile whose pilot is not listed here, before the target is applied and before any network call. This keeps MASTERPILOT-02's automation from ever running against masterpilot01 (88001) or any other pilot, even if the wrong --profile is passed by mistake. One project directory = one pilot family; do not add 88001 here -- it has its own separate automation.",
+  "project": "MASTERPILOT-02",
+  "allowed_pilots": [88002, 88011],
+  "forbidden_note": "88001 (masterpilot01, bidgely-masterpilot-resi-fl-productqa) is deliberately excluded: it has no NVE lineage and its own separate automation. Never add it here."
+}

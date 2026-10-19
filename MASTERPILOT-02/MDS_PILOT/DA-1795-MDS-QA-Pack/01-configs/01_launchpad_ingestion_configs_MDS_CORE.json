@@ -1,0 +1,55 @@
+{
+  "_comment": "DA-1795 MDS core ingestion configs. POST to /entities/{pilotId}/configs. These 7 keys are what make a pilot MDS. Values below are the CORRECTED set per DA-1795 spec - see 00_README for the 2 keys where pilot 73969 currently drifts from this.",
+  "configType": "launchpad_ingestion_configs",
+  "configKVs": [
+    {
+      "configKey": "create_streams_based_on_supported_streams_config",
+      "configVal": "true",
+      "configDocumentation": "Master MDS enablement flag. When true, ingestion creates stream-specific meters from supported_streams. When false, backend falls back to legacy DELIVERED_AND_RECEIVED behavior.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "supported_streams",
+      "configVal": "{\"supportedStreams\":[{\"measurementType\":\"ELECTRIC\",\"streams\":[{\"streamType\":\"DELIVERED\",\"streamTokenSuffix\":\"\"},{\"streamType\":\"CONTROLLED_LOAD_1\",\"streamTokenSuffix\":\"CL1\"},{\"streamType\":\"CONTROLLED_LOAD_2\",\"streamTokenSuffix\":\"CL2\"},{\"streamType\":\"RECEIVED\",\"streamTokenSuffix\":\"R\"}]}]}",
+      "configDocumentation": "Core MDS stream-definition JSON. Defines supported stream types per measurement type and the suffix used to build stream-specific tokens and data-stream identifiers. NOTE: SOLAR_GENERATION (suffix SG) is deliberately absent here - add it only if the pilot will ingest an actual generation stream.",
+      "configRegex": ".*",
+      "configDataType": "TEXT"
+    },
+    {
+      "configKey": "handle_meter_enrollment",
+      "configVal": "true",
+      "configDocumentation": "Controls whether meter creation and update is handled through meter-enrollment or data-stream flow instead of only user-enrollment flow. Required for MDS onboarding and stream-specific meter creation.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "update_streams_based_on_rate_plan",
+      "configVal": "true",
+      "configDocumentation": "When true, stream activation and deactivation follow stream availability on the user's active rate plan. When false, streams follow enrollment contract dates instead.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "handleRateTransition",
+      "configVal": "true",
+      "configDocumentation": "Enables rate schedule updates during enrollment and rate transitions. Companion flag for MDS because stream activation and billing behavior must align with active rate-plan schedules.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "enable_same_meter_updation",
+      "configVal": "false",
+      "configDocumentation": "Legacy update optimization. MDS design guidance is to keep this false because stream-specific meters may need to be created or invalidated independently over time.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    },
+    {
+      "configKey": "solar_transition_invalidate_nonsolar_meter",
+      "configVal": "false",
+      "configDocumentation": "Legacy solar-transition behavior for non-MDS pilots. Explicitly not applicable to normal MDS modeling because RECEIVED is expected to be represented as its own stream.",
+      "configRegex": "true|false",
+      "configDataType": "BOOLEAN"
+    }
+  ]
+}

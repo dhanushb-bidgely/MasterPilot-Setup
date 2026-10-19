@@ -1,0 +1,42 @@
+{
+  "_comment": "DA-1795 field-position mappings. These tell the parser which column holds what. The Data_Stream_Id mapping on invoice_launchpad is REQUIRED for MDS - without it the invoice cannot be associated to a stream. Verified live on pilot 73969, 24 Aug 2026.",
+  "_apply_note": "POST each configType block separately.",
+  "blocks": [
+    {
+      "configType": "invoice_launchpad",
+      "configKVs": [
+        {
+          "configKey": "Data_Stream_Id",
+          "configVal": "{\"fieldPosition\": 3, \"utilityFieldMandatory\": true, \"regex\": \"\", \"launchPadInvoiceField\": \"DATA_STREAM_ID\"}",
+          "configDocumentation": "MDS-REQUIRED. Maps invoice column 3 to the data stream id (the meter token, e.g. 911141002). Without this the invoice will not associate to a stream.",
+          "configRegex": ".*",
+          "configDataType": "TEXT"
+        }
+      ]
+    },
+    {
+      "configType": "meter_creation_launchpad",
+      "configKVs": [
+        {
+          "configKey": "solar_user",
+          "configVal": "{\"fieldPosition\":11,\"utilityFieldMandatory\":false,\"regex\":\"\",\"launchpadMeterEnrollmentField\":\"SOLAR_USER\"}",
+          "configDocumentation": "Maps METERENROLL column 11 to the solar flag. In the supplied METERENROLL file this column holds 'True'.",
+          "configRegex": ".*",
+          "configDataType": "TEXT"
+        }
+      ]
+    },
+    {
+      "configType": "user_creation_launchpad",
+      "configKVs": [
+        {
+          "configKey": "solar_user",
+          "configVal": "{\"fieldPosition\": 35, \"utilityFieldMandatory\": false, \"regex\": null, \"launchPadUserCreationField\": \"SOLAR_USER\"}",
+          "configDocumentation": "Maps USERENROLL column 35 to the solar flag. Sets homeAccounts.hasSolar=true, which is what the web dashboard reads to pick the SOLAR layout.",
+          "configRegex": ".*",
+          "configDataType": "TEXT"
+        }
+      ]
+    }
+  ]
+}
