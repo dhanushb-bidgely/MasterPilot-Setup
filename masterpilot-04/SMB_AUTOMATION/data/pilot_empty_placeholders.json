@@ -1,0 +1,190 @@
+{
+ "survey_configs": [
+  "ev_survey"
+ ],
+ "email_monthly_summary_section_configs": [
+  "show_cost_break_down_for_solar_users"
+ ],
+ "email_user_welcome_section_configs": [
+  "projected_bill_image_url"
+ ],
+ "tou_onboarding_welcome_section_config": [
+  "tou_onboarding_subject_provider_type"
+ ],
+ "tou_usage_section_configs_palette": [
+  "color301",
+  "color302",
+  "color303",
+  "color304"
+ ],
+ "email_energy_saving_reco_section_configs": [
+  "df_shc_power_icon_image_url"
+ ],
+ "email_itemization_explainer_section_configs": [
+  "color_palette_id"
+ ],
+ "email_itemization_section_configs": [
+  "is_app_level_itemization_value_long",
+  "explore_cta_url",
+  "explore_cta_url_ev",
+  "update_home_profile_url",
+  "block_itemization_without_invoice",
+  "explore_cta_url_pool_pump",
+  "explore_cta_url_combined"
+ ],
+ "actionDR_email_string_ids": [
+  "actionDRTitleFailureText",
+  "actionDRTitleAnnouncedText",
+  "actionDRSubjectSummaryReadyFeedBack",
+  "actionDRNoneAchievedStateNonMonetaryEventImageUrl",
+  "actionDRSubjectEventAnnounced",
+  "actionDRSuccessStateMonetaryEventImageUrl",
+  "actionDRSubjectEventStarting",
+  "actionDRPreEventMonetaryText",
+  "actionDRTitleDisconnectionText",
+  "actionDRSubjectEventPreEvent",
+  "actionDROneAchievedStateMonetaryEventImageUrl",
+  "actionDROneAchievedStateNonMonetaryEventImageUrl",
+  "actionDRTitleMidText",
+  "actionDRUpcomingStateNonMonetaryEventImageUrl",
+  "actionDRHour",
+  "actionDRTitleSuccessText",
+  "actionDRNoneAchievedStateMonetaryEventImageUrl",
+  "actionDRNewIncentiveSuccess",
+  "actionDRSuccess3NonMonetaryText",
+  "actionDRTitleEndedText",
+  "actionDRSuccessStateNonMonetaryEventImageUrl",
+  "actionDRSubjectSummaryReadySuccess",
+  "actionDRMidMonetaryText",
+  "actionDRCancelledText",
+  "actionDRAnnouncedStateNonMonetaryEventImageUrl",
+  "actionDRDisconnectedText",
+  "actionDREndStateNonMonetaryEventImageUrl",
+  "actionDRTwoAchievedStateNonMonetaryEventImageUrl",
+  "actionDRPreviousConsumption",
+  "actionDRFailureText",
+  "actionDRDownloadFuture",
+  "actionDRTwoAchievedStateMonetaryEventImageUrl",
+  "actionDRFailureMonetaryText",
+  "actionDRSubjectEventEndingCancellation",
+  "actionDRAppNameUE",
+  "actionDRCompletedText",
+  "actionDRPreEventStateMonetaryEventImageUrl",
+  "actionDRAppNameHB",
+  "actionDRStartedNonMonetaryText",
+  "actionDRUpcomingStateMonetaryEventImageUrl",
+  "actionDRpreEventStateNonMonetaryEventImageUrl",
+  "actionDRDisconnectedAText",
+  "actionDRTitleUpcomingText",
+  "actionDRDefaultSubject",
+  "actionDRAnnouncedNonMonetary",
+  "actionDREMailDateFormat",
+  "actionDRThreeAchievedStateNonMonetaryEventImageUrl",
+  "actionDRSubjectEventEndingDisconnection",
+  "actionDRCancelStateMonetaryEventImageUrl",
+  "actionDRMidStateNonMonetaryEventImageUrl",
+  "actionDRHourlyConsumptionComma",
+  "actionDRSuccess2NonMonetaryText",
+  "actionDRFailureNonMonetaryText",
+  "emailUsAt",
+  "actionDRStartStateNonMonetaryEventImageUrl",
+  "actionDRThreeAchievedStateMonetaryEventImageUrl",
+  "actionDRDisconnectedBText",
+  "actionDRSubjectEventMid",
+  "actionDRSuccessMonetaryText",
+  "actionDRMidStateMonetaryEventImageUrl",
+  "actionDRSuccessText",
+  "actionDRNewIncentiveSuccess3",
+  "actionDRHourlyConsumptionColon",
+  "actionDRStartedMonertaryText",
+  "actionDRCancelStateNonMonetaryEventImageUrl",
+  "actionDRSubjectEventEndingFeedback",
+  "actionDRTitlePreEventText",
+  "actionDRPreEventNonMonetaryText",
+  "actionDRDisconnectionCMonetaryText",
+  "actionDRSubjectEventEndingSuccess",
+  "actionDRPreEventText",
+  "actionDRDownload",
+  "actionDRPersonalGoal",
+  "actionDRPaymentText",
+  "actionDRSubjectSummaryReadyFailure",
+  "actionDRHours",
+  "managePreferences",
+  "actionDRSuccess1NonMonetaryText",
+  "actionDRStartStateMonetaryEventImageUrl",
+  "actionDRAnnouncedStateMonetaryEventImageUrl",
+  "actionDRPersonalGoalText",
+  "actionDRMidNonMonetaryText",
+  "actionDRRewardText",
+  "actionDRTitleStartingText",
+  "actionDRPreTitle",
+  "actionDRPostTitle",
+  "actionDRTitleCancelledText",
+  "actionDRAnnouncedMonetaryText",
+  "actionDREndStateMonetaryEventImageUrl"
+ ],
+ "mtd_break_down_section_configs": [
+  "color_palette_id"
+ ],
+ "cta_with_text_section_configs": [
+  "cta_image_button_1_image",
+  "cta_image_button_2_image"
+ ],
+ "mtd_break_down_section_configs_palette": [
+  "color1",
+  "color2",
+  "color3"
+ ],
+ "shc_compared_to_widget_section_configs": [
+  "business_size_range_set"
+ ],
+ "email_env_section_configs": [
+  "use_previous_billing_cycle",
+  "show_half_image_in_env_impact_section"
+ ],
+ "utility_survey_config": [
+  "emailsSentWithSurveyThreshold",
+  "url"
+ ],
+ "email_template": [
+  "high_bill_alert_faq_page_url"
+ ],
+ "frontend_configs": [
+  "MANAGED_CHARGING.REWARD_SECTION.HIDE",
+  "defaultCostConsumptionDay",
+  "DASHBOARD.USAGE_SUMMARY_V2.SHOW_SOLAR_STREAM_COST",
+  "defaultCostConsumptionYear",
+  "MANAGED_CHARGING.INCENTIVE_TRACKER.HIDE_REWARD_BOXES",
+  "defaultCostConsumptionMonth",
+  "HBA.BILL_ANALYSIS_V3.SEASONAL_APPLIANCE_IDS",
+  "SIMILAR_HOMES.SHOW_TOP_HEADER",
+  "dashboard.ratePlans.hideSwitchPlanBtn",
+  "MANAGED_CHARGING.TOU_COST.LOW.ICON",
+  "DASHBOARD.HOME.BILL_PROJECTION.V2.WC_NAV_URL_USAGE",
+  "MANAGED_CHARGING.TOU.PLUG_CHARGE.IMG",
+  "DASHBOARD.RECOMMENDATION.TOP_5.WC_NAV_URL_RECO_ALL",
+  "CONSUMPTION_BREAKDOWN.WC_NAV_URL_FAQ",
+  "MANAGED_CHARGING.TOU_COST.HIGH.ICON",
+  "DASHBOARD.SURVEY.WC_NAV_URL_FINISH_SURVEY",
+  "HBA.BILL_ANALYSIS_V3.NON_SEASONAL_APPLIANCE_IDS",
+  "DASHBOARD.MONTHLY_SUMMARY.V3.ENABLE_NET_BILLING_DOLLAR",
+  "MANAGED_CHARGING.RENDER_OLD_PERMISSION_SCREEN",
+  "energyInsightsUsageModeDetails",
+  "SMART_RECO.V2.IMAGES.PARTICIPATION_ICON",
+  "SIMILAR_HOMES.WC_NAV_URL_RECO",
+  "INSIGHTS.USAGE.SOLAR.HIDE_NET_USAGE",
+  "DASHBOARD.MONTHLY_SUMMARY.WC_NAV_URL_SURVEY",
+  "DASHBOARD.MONTHLY_SUMMARY.V3.SHOW_SOLAR_STREAM_COST",
+  "dashboard.chatbot.channels",
+  "SIMILAR_HOMES.WC_NAV_URL_SURVEY"
+ ],
+ "tou_rate_change_section_configs": [
+  "clock_emoji_url",
+  "color_palette_id",
+  "dollar_emoji_url",
+  "duplicate_prevention_days",
+  "effective_date_format",
+  "max_lookahead_days",
+  "min_price_change_threshold"
+ ]
+}

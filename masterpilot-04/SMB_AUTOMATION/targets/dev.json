@@ -1,0 +1,41 @@
+{
+  "name": "masterpilot 88004 SMB (dev)",
+  "pilot": 88004,
+  "segment": "SMB",
+  "base_url": "https://api-server-masterpilot-dev.bidgely.com",
+  "dashboard_url": "https://masterpilot-dev.bidgely.com",
+  "launchpad_bucket": "bidgely-masterpilot-smb-id-dev",
+  "aws_region": "us-west-2",
+  "timezone": "America/Chicago",
+  "bill_cycle_code": "SMBQA1",
+  "utility_name": "masterpilot-88004",
+  "recipient": "qa-automation@bidgely.com",
+  "plans": {
+    "electric": {
+      "number": 960,
+      "name": "SMB_GS_STANDARD",
+      "fuel": "ELECTRIC",
+      "description": "SMB General Service standard: flat energy rate all hours, monthly customer charge"
+    },
+    "gas": {
+      "number": 961,
+      "name": "SMB_GAS_STANDARD",
+      "fuel": "GAS",
+      "description": "SMB Gas standard: flat delivery rate per therm, monthly customer charge"
+    }
+  },
+  "debug_kit_profile": "",
+  "restart_units": {},
+  "token": {
+    "env": "MASTERPILOT_DEV_TOKEN",
+    "env_file": ".env"
+  },
+  "program_file_prefix": "PROGRAM_PART",
+  "marker_bucket": "bidgely-masterpilot-dev-external",
+  "aggregation_priority_queue": "AggregationReadyUsersPriority-dev-masterpilot",
+  "sbc_donor_ntypes": [
+    88001,
+    88003,
+    88002
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "name": "play-pilot4 88012 SMB (productqa)",
+  "pilot": 88012,
+  "segment": "SMB",
+  "base_url": "https://api-server-masterpilot-productqa.bidgely.com",
+  "dashboard_url": "https://masterpilot-productqa.bidgely.com",
+  "launchpad_bucket": "bidgely-masterpilot-smb-id-productqa",
+  "aws_region": "us-west-2",
+  "timezone": "America/Chicago",
+  "bill_cycle_code": "SMBQA1",
+  "utility_name": "play-pilot4",
+  "recipient": "qa-automation@bidgely.com",
+  "plans": {
+    "electric": {
+      "number": 960,
+      "name": "SMB_GS_STANDARD",
+      "fuel": "ELECTRIC",
+      "description": "SMB General Service standard: flat energy rate all hours, monthly customer charge"
+    },
+    "gas": {
+      "number": 961,
+      "name": "SMB_GAS_STANDARD",
+      "fuel": "GAS",
+      "description": "SMB Gas standard: flat delivery rate per therm, monthly customer charge"
+    }
+  },
+  "debug_kit_profile": "",
+  "restart_units": {
+    "ingesterjobs-productqa-masterpilot": [
+      "gbUserDataIngester.service",
+      "gbUserDataIngesterPriority.service"
+    ],
+    "aggregations-productqa-masterpilot": [
+      "aggregationMessageProcessor.service"
+    ],
+    "aggregationspriority-productqa-masterpilot": [
+      "aggregationMessageProcessorPriority.service"
+    ],
+    "notifications-productqa-masterpilot": [
+      "notificationsProcessorDaemon.service",
+      "notificationsProcessorDaemonPriority.service"
+    ]
+  },
+  "token": {
+    "env": "MASTERPILOT_TOKEN",
+    "env_file": ".env"
+  },
+  "program_file_prefix": "PROGRAM_PART",
+  "marker_bucket": "bidgely-masterpilot-productqa-external",
+  "aggregation_priority_queue": "AggregationReadyUsersPriority-productqa-masterpilot",
+  "sbc_donor_ntypes": [],
+  "hybrid_model_bucket": "hybrid-models-productqa"
+}

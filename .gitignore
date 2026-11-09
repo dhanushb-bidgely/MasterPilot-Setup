@@ -74,3 +74,13 @@ Persona_setup/BudgetAlert/output/
 
 # Single shared Persona_setup config - holds a live token
 Persona_setup/config.json
+
+# masterpilot-04 (88004 SMB): live token and per-run output
+masterpilot-04/SMB_AUTOMATION/.env
+masterpilot-04/SMB_AUTOMATION/results/
+masterpilot-04/cdg_user_setup/config.json
+masterpilot-04/cdg_user_setup/sources.csv
+masterpilot-04/cdg_user_setup/create_users_results.json
+masterpilot-04/cdg_user_setup/failed_users.csv
+masterpilot-04/rate_migration/config.json
+masterpilot-04/rate_migration/sources.csv

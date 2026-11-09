@@ -1,0 +1,14 @@
+# month|thermsPerDay - seed for masterPilot04SmbMonthlyBillingDataFormatter (Gas NSM): the SMB kit's GasProfile
+# mean (sk/data.py: (1.6 + 9.0 x cold) therms/day, cold = 0.5 + 0.5 cos(2 pi (month-1)/12)) without its random factor
+1|10.600
+2|9.997
+3|8.350
+4|6.100
+5|3.850
+6|2.203
+7|1.600
+8|2.203
+9|3.850
+10|6.100
+11|8.350
+12|9.997

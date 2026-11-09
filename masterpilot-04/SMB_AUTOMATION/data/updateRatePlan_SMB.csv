@@ -1,0 +1,1 @@
+${customerId}|${contractId}|${premiseId}|SMB|${email}|SMB|${lastName}|${addressLine1}||||${city}|${state}|${zip}||${addressLine1}||||${city}|${state}|${zip}|${phoneNumber}||EN|||${dataStreamId}|ELECTRIC|${serviceAgreementStartDate}||${rateId}|${rateEffectiveDate}|${billingCycleCode}|${serviceAgreementStartDate}|FALSE|AMI|

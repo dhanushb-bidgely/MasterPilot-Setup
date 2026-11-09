@@ -1,0 +1,5 @@
+SOURCE_BASE_URL,ENV_TOKEN,SOURCE_UTILITY_ID,PLAN_NUMBER,TARGET_PLAN_NUMBER
+https://api-server-masterpilot-productqa.bidgely.com,<source bearer token>,88004,960,
+,,88004,961,
+,,88004,962,
+,,88004,963,

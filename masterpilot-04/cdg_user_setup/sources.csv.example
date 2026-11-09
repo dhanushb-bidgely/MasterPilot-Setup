@@ -1,0 +1,6 @@
+PERSONA,PERSONA_DESCRIPTION,SOURCE_UUID,SOURCE_ENVIRONMENT,RATE_PLAN,PRIMARY_EMAIL,BILLING_CYCLE,METER_FUEL,BB_DURATION
+SMB Standard,SMB office on the standard GS plan,<source SMB uuid>,NA,SMB_GS_STANDARD,bidgelyqa+mp04_SMBStandard@bidgely.com,CDG_01,AMI-ELECTRIC,0
+SMB TOU,SMB office on the GS TOU plan,<source SMB uuid>,NA,SMB_GS_TOU,bidgelyqa+mp04_SMBTOU@bidgely.com,CDG_01,AMI-ELECTRIC,0
+SMB Demand,SMB office on the GS demand plan,<source SMB uuid>,NA,SMB_GS_DEMAND,bidgelyqa+mp04_SMBDemand@bidgely.com,CDG_01,AMI-ELECTRIC,0
+SMB BB,SMB office on budget billing,<source SMB uuid>,NA,SMB_GS_STANDARD,bidgelyqa+mp04_SMBBB@bidgely.com,CDG_01,AMI-ELECTRIC,12
+SMB Dual Fuel,SMB office electric AMI + gas,<source SMB uuid>,NA,,bidgelyqa+mp04_SMBDualFuel@bidgely.com,CDG_01,AMI-ELECTRIC|AMR-GAS,0
