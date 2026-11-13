@@ -11,12 +11,12 @@ strings of this email, triggers the platform and waits for the email. Checks: C0
 C03 invoices = generated, E01 email stored, E02 subject, E03 rendered, E04 every configured section, M01 bill amount = billing_cost of the last cycle, M02 period, M03 demand / M04 budget billing / M05 TOU when the plan has them.
 
 RUN
-    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_user.py                         # productqa (default)
-    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_user.py --env dev               # any targets/<env>.json
-    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_user.py --email you@bidgely.com
-    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_user.py --manifest SMB_AUTOMATION/results/monthly_summary_gas_ami/run_<env>_<stamp>/manifest.json
+    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_no_itemization_gas_chart_user.py                         # productqa (default)
+    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_no_itemization_gas_chart_user.py --env dev               # any targets/<env>.json
+    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_no_itemization_gas_chart_user.py --email you@bidgely.com
+    python3 SMB_AUTOMATION/create_smb_monthly_summary_gas_ami_no_itemization_gas_chart_user.py --manifest SMB_AUTOMATION/results/monthly_summary_gas_ami_no_itemization_gas_chart/run_<env>_<stamp>/manifest.json
 
-OUTPUT  SMB_AUTOMATION/results/monthly_summary_gas_ami/run_<env>_<stamp>/
+OUTPUT  SMB_AUTOMATION/results/monthly_summary_gas_ami_no_itemization_gas_chart/run_<env>_<stamp>/
     SUMMARY.txt              user details, uploads, email, check table
     manifest.json            run variables + uploads (used by --manifest to re-check the same user)
     input_files/             the launchpad files uploaded to S3
@@ -36,4 +36,4 @@ ARGV = bootstrap()
 import smb_common  # noqa: E402
 
 if __name__ == "__main__":
-    sys.exit(smb_common.main(__doc__, "monthly_summary_gas_ami", ARGV))
+    sys.exit(smb_common.main(__doc__, "monthly_summary_gas_ami_no_itemization_gas_chart", ARGV))

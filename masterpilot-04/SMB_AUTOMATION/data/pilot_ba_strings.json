@@ -1,0 +1,18 @@
+{
+ "com.bidgely.cloud.email.budget.alert.button.text": "UPDATE MY BUDGET",
+ "com.bidgely.cloud.email.budget.alert.update.info.text": "These alerts are sent based on your personalised budget.",
+ "com.bidgely.cloud.email.budget.alert.update.text": "Need to change your budget?",
+ "com.bidgely.cloud.email.budgetAlert.disclaimer2": "",
+ "com.bidgely.cloud.email.cta.with.des.section.url1.text": "",
+ "com.bidgely.cloud.email.cta.with.des.section.url2.text": "",
+ "com.bidgely.cloud.email.cta.with.des.section.url3.text": "",
+ "com.bidgely.cloud.email.cta.with.des.section.url4.text": "More savings tips and recommendations",
+ "com.bidgely.cloud.email.ctaSection.setBudget.bodyText": "",
+ "com.bidgely.cloud.email.ctaSection.setBudget.buttonText": "",
+ "com.bidgely.cloud.email.ctaSection.updateHomeProfile.bodyText": "Fill out your home profile to help us select more relevant<br /> energy saving tips for you, and improve the accuracy of<br /> your appliance breakdown!",
+ "com.bidgely.cloud.email.energyPortalInfo": "Find out more on your <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">energy portal.</a>",
+ "com.bidgely.cloud.email.greetingSection.text.greetUser": "Hello <strong>%s,</strong>",
+ "com.bidgely.cloud.email.newRecoUI.BudgetAlert.fair.HeadLine": "Personalized tips for you",
+ "com.bidgely.cloud.email.newRecoUI.BudgetAlert.fair.subHeadLine": "Based on your energy usage, here are a few tips:",
+ "com.bidgely.cloud.email.sentences.emailSentDetail.psegli": "This email was sent to a"
+}

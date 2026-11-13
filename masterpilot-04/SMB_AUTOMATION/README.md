@@ -32,12 +32,62 @@ python3 SMB_AUTOMATION/create_smb_welcome_user.py --ensure-pilot-config         
 | monthly_summary, budget_billing | Electric AMI 960 | MONTHLY_SUMMARY |
 | demand_journey | Electric AMI 963 | MONTHLY_SUMMARY with demand charges |
 | tou_monthly_summary | Electric AMI 962 | MONTHLY_SUMMARY with TOU usage |
-| monthly_summary_gas_ami / _gas_nsm | Gas AMI / Gas NSM 961 | MONTHLY_SUMMARY (gas) |
+| monthly_summary_gas_ami_no_itemization_gas_chart / monthly_summary_gas_nsm_no_itemization_gas_chart | Gas AMI / Gas NSM 961 | MONTHLY_SUMMARY (gas): no itemization (never rendered for SMB gas), gas bar chart, billing-charges block off |
 | bill_projection / tou_bill_projection / bill_projection_gas_ami | Electric AMI 960 / 962 / Gas AMI 961 | BILL_PROJECTION |
 | budget_alert / budget_alert_gas_ami | Electric AMI 960 / Gas AMI 961 | BUDGET_ALERT (75%) |
 | tou_onboarding | Electric AMI 960, then USERENROLL to 962 | TOU_ONBOARDING |
 | sbc_dual_fuel | Electric AMI 960 + Gas NSM 961 | NEIGHBOURHOOD_COMPARISON (combined) |
 | file_upload_* | Electric AMI / Gas NSM / both | none (data checks only) |
+
+## New pilot: step by step
+
+Run every command from `masterpilot-04/`. `<env>` is the name of the target file in `targets/` (`productqa`, `uat`, `dev`,
+`productqa-88012`, or your new one). Tokens come from `.env` or the environment (see Setup), never from the command line.
+
+1. **Target file.** Copy `targets/template.json.example` to `targets/<env>.json` and fill in: `pilot`, `base_url`,
+   `dashboard_url`, `launchpad_bucket` (the pilot's `s3_pull` bucket), `marker_bucket`, `bill_cycle_code`, `utility_name`,
+   `timezone`, the plan names, `aggregation_priority_queue`, `sbc_donor_ntypes`, and the `token.env` variable name. Put the
+   token under that name in `.env`.
+2. **Plan (read-only).** Shows what is missing; writes nothing:
+   ```bash
+   python3 SMB_AUTOMATION/setup_pilot.py --env <env>
+   ```
+3. **Apply.** Copies the rate plans by name from the reference (productqa 88004), creates the bill-cycle code, copies the
+   hybrid models and the reco model files (reco files come from uat, productqa serves recommendations from CMS), then writes
+   the pilot configs, string prerequisites and mail settings (each config type is backed up first and read back):
+   ```bash
+   python3 SMB_AUTOMATION/setup_pilot.py --env <env> --apply
+   ```
+4. **Ingestion bucket (only if the pilot's ingestion must read the target's buckets).** This reroutes the pilot's files:
+   ```bash
+   python3 SMB_AUTOMATION/setup_pilot.py --env <env> --apply --set-ingestion-bucket
+   ```
+5. **By a person or DevOps** (the script prints this list and does not do it): the SparkPost key
+   `email_moderation.smtp_pwd` at pilot level, servers up, the ingester reading a new bucket, the DCX feature rows, and
+   neighbourhood clusters for the SBC comparison.
+6. **Preflight (read-only).** Fix everything it lists before running any email:
+   ```bash
+   python3 SMB_AUTOMATION/create_smb_welcome_user.py --env <env> --phases preflight
+   ```
+7. **Run one email, then all.** Keep the wave small (the queues are shared):
+   ```bash
+   python3 SMB_AUTOMATION/run_all.py run welcome --env <env>
+   python3 SMB_AUTOMATION/run_all.py run all --env <env> --wave 2
+   ```
+   Results are in `results/<flow>/run_<env>_<stamp>/`; the console log of each script is in `results/_runner/`.
+
+Notes for a new pilot:
+- Gas Monthly Summary: the two gas flows above set `email_monthly_summary_section_configs.show_billing_charges_in_billing_section=false`
+  at user scope. Without it the gas MS email is never stored (`EMAIL_TEMPLATE_NOT_RENDERED`, Velocity `Variable
+  $monthlyUsageEnergyUsageChargesTextKey has not been set` at `monthly_summary_section_v2.vm` line 151): pingpong's
+  `MonthlySummarySectionContentProvider.getMonthSummaryTemplateData` sets the charges text keys for electric and water only.
+  The Hawk gas MS scenarios need the same user-level config until pingpong sets the keys for gas.
+- `--allow-pilot-drift` runs a flow although a REQUIRED pilot config differs (it warns and writes nothing).
+- Do not use `--apply` / `--ensure-pilot-config` on a pilot that already holds values you need: they change pilot-level
+  configs (backups are in `<run>/pilot_config_backups/`).
+- Drop reasons for a missing email: the backend writes one JSON record per notification attempt to
+  `s3://common-metrics-productqa/notification-events/YYYY/MM/DD/HH/` on productqa (UTC, about 10 minutes behind; the
+  bucket name of other envs is not checked).
 
 ## Checks
 

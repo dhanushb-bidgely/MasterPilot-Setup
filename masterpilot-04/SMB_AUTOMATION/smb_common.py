@@ -153,6 +153,8 @@ class Engine:
         self.api = api or Api()
         self.run_dir = run_dir
         self.set_bucket = False
+        self.allow_drift = False
+        self.strings_only = False
         # target-specific values the flows reference as ${dashboardUrl} / userProgramFilePrefix (never hard-coded)
         self.vars: dict = {"home": HOME, "dashboardUrl": T.dashboard_url.rstrip("/"),
                            "userProgramFilePrefix": f"USERPROGRAM_{T.utility_name}_"}
@@ -213,7 +215,8 @@ class Engine:
         steps = self.steps
         if not resume:
             try:
-                pilot_setup.preflight(self.api, self.run_dir, log, ensure_pilot, self.key, self.set_bucket)
+                pilot_setup.preflight(self.api, self.run_dir, log, ensure_pilot, self.key, self.set_bucket,
+                                      self.allow_drift, self.strings_only)
             except SetupError as e:
                 log(f"PREFLIGHT FAILED: {e}")
                 self.check("P00", "pilot readiness", "FAIL", e)
@@ -1280,6 +1283,11 @@ def main(doc: str, key: str, argv: list[str] | None = None) -> int:
                     help="PILOT write: point s3_pull/data_ingestion at targets launchpad_bucket (reroutes the pilot's files)")
     ap.add_argument("--ensure-pilot-config", action="store_true",
                     help="PILOT write: set the sk/pilot_setup.py configs that differ (backed up first)")
+    ap.add_argument("--ensure-strings-only", action="store_true",
+                    help="PILOT write: like --ensure-pilot-config but only the string resources; no config is written "
+                         "or removed (backed up first, read back)")
+    ap.add_argument("--allow-pilot-drift", action="store_true",
+                    help="run even if REQUIRED pilot configs differ (WARN instead of stop); nothing is written")
     a = ap.parse_args(argv)
     if a.email:
         os.environ["MP04_EMAIL"] = a.email
@@ -1291,6 +1299,8 @@ def main(doc: str, key: str, argv: list[str] | None = None) -> int:
     try:
         eng = Engine(key, FLOWS[key], run_dir)
         eng.set_bucket = a.set_ingestion_bucket
-        return eng.run(resume, a.ensure_pilot_config, a.phases == "preflight")
+        eng.allow_drift = a.allow_pilot_drift
+        eng.strings_only = a.ensure_strings_only
+        return eng.run(resume, a.ensure_pilot_config or a.ensure_strings_only, a.phases == "preflight")
     except KeyboardInterrupt:
         return 130

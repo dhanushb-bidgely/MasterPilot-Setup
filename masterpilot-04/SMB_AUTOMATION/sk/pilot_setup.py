@@ -16,8 +16,10 @@ REQUIRED (a miss stops the run with "pilot not ready: ..."; --ensure-pilot-confi
 MATCH_HAWK (a miss is a WARN: the run passes its checks, but the email differs from the Hawk-approved one):
   - MATCH_HAWK_CONFIGS below and the SMB rate_comparison map entries
   - NEWER_BUILD_EMPTY: "" values harmless on productqa's build, fatal to aggregation on a newer one
-Never touched: event_subscriptions.*, email_template_sections_config (DCX). User-scope configs and strings are set by
-each flow on its own user (smb_flows.py, identical to the Hawk masterpilot-04 scenarios).
+Never touched: event_subscriptions.*, email_template_sections_config (DCX), except the USER_WELCOME section lists in
+WELCOME_SECTION_LISTS, written at PILOT only where the pilot inherits them from GLOBAL or has none (a value the pilot
+or DCX already holds is never overwritten). User-scope configs and strings are set by each flow on its own user
+(smb_flows.py, identical to the Hawk masterpilot-04 scenarios).
 """
 from __future__ import annotations
 
@@ -32,6 +34,21 @@ from .target import T
 
 ROOT = Path(__file__).resolve().parent.parent
 PLACEHOLDERS = ROOT / "data" / "pilot_empty_placeholders.json"
+# The 27 strings productqa 88004 overrides at its pilot-wide BILL_PROJECTION sub-level (entity <pilot>.BILL_PROJECTION):
+# blanks for "THIS IS NOT A BILL" and the electric disclaimers, the budget and CTA wording, FAQ text, tips heading,
+# peak-appliance texts. Without them every BP email on a pilot carries the GLOBAL electric wording (uat 2026-11-09).
+# Static snapshot of productqa; the gas-only texts stay per user (the flows write <uuid>.BILL_PROJECTION.GAS).
+BP_SUBLEVEL_STRINGS = ROOT / "data" / "pilot_bp_strings.json"
+# The same for BUDGET_ALERT (16 strings: the greeting, "Need to change your budget?", button label, blanked
+# disclaimer and CTA texts). One snapshot file per event; event name = the sub-level entity suffix.
+SUBLEVEL_STRING_FILES = {
+    "BILL_PROJECTION": BP_SUBLEVEL_STRINGS,
+    "BUDGET_ALERT": ROOT / "data" / "pilot_ba_strings.json",
+    # MONTHLY_SUMMARY (21 strings: the footer disclaimer "All dollar amounts are rounded ... electric usage", the
+    # "Amount" label, the tips heading, new-service title, CTA labels). Budget Billing, Bill Analysis and the other MS
+    # flows read them (uat 2026-11-09).
+    "MONTHLY_SUMMARY": ROOT / "data" / "pilot_ms_strings.json",
+}
 
 REQUIRED_CONFIGS = {
     # SMB disaggregation: the SMB model path instead of the residential hybrid V2 (same on productqa/uat/dev 88004;
@@ -63,13 +80,54 @@ REQUIRED_CONFIGS = {
                        # https://bidgely.com/email/unsubscribe?uuid=${uuid} needs ${uuid}. Each env points at its own
                        # dashboard (productqa/dev hold exactly this value), so it is built from T.dashboard_url.
                        "unsubscribe_url_opt_out_mails": T.dashboard_url.rstrip("/") + "/dashboard/settingsPreferences"
-                                                        "?tab-type=${tab-type}&event-type=${event-type}"},
+                                                        "?tab-type=${tab-type}&event-type=${event-type}",
+                       # The CTA "UPDATE HOME PROFILE" (Welcome, ...) links here. Unset at PILOT it falls back to the
+                       # GLOBAL http://bidgely.com/email/settings, a page that does not exist for this pilot (uat
+                       # 2026-11-09). productqa holds <dashboard_url>/dashboard/survey at PILOT.
+                       "home_profile_page_url": T.dashboard_url.rstrip("/") + "/dashboard/survey"},
 }
 MATCH_HAWK_CONFIGS = {
     "email_user_welcome_section_configs": {"appliance_usage_image_url": "", "similar_homes_comparison_image_url": "",
                                            "saving_tips_image_url": ""},
     "email_footer_section_configs": {"description_for_ms": ""},
     "recommendation_preference": {"budget_alert_mails_recommendations_count": "4"},
+}
+# Pilot-level string texts productqa 88004 holds (blank on purpose) and a fresh pilot does not: the user-welcome
+# "bill period" / "projected bill" blocks render only when their titles are non-empty, so the GLOBAL texts add two
+# blocks productqa's Welcome email does not have (uat 2026-11-09). A miss is a WARN; --ensure-pilot-config writes
+# them at PILOT scope (backed up first, read back).
+MATCH_HAWK_STRINGS = {
+    "com.bidgely.cloud.email.userwelcome.title.billPeriod": "",
+    "com.bidgely.cloud.email.userwelcome.title.projectedBill": "",
+    # Bill Projection footer: productqa holds these two as blank placeholders and the BP FAQ link as a bidgely.com URL
+    # (the same on every env); uat had none of the three. An id that resolves to nothing aborts the whole email render
+    # (bare Map.get(id).getText()), so the BP email was never stored on uat for any user or fuel (2026-11-06, 11-09).
+    "com.bidgely.cloud.email.billProjection.footer.disclaimer.2": "",
+    "com.bidgely.cloud.email.billProjection.footer.disclaimer.3": "",
+    "com.bidgely.cloud.email.text.footer.faq.bp.url": "https://www.bidgely.com/dashboard/faqs",
+    # The other email strings productqa 88004 blanks (or points at the FAQ page) at PILOT while uat keeps the GLOBAL text:
+    # the BP greeting's "Explore your recent usage on your energy portal", the post-only-message line, the energy-charge
+    # note and the home-profile title; the MS / Welcome FAQ links are empty on uat (2026-11-09).
+    "com.bidgely.cloud.email.disclaimer3": "",
+    "com.bidgely.cloud.email.greeting.summary.web.url.bp.text": "",
+    "com.bidgely.cloud.email.sentences.energy.charge.text": "",
+    "com.bidgely.cloud.email.sentences.homeProfileTitle": "",
+    "com.bidgely.cloud.email.text.footer.faq.ms.url": "https://www.bidgely.com/dashboard/faqs",
+    "com.bidgely.cloud.email.text.footer.faq.uw.url": "https://www.bidgely.com/dashboard/faqs",
+    # Budget Alert footer: a blank placeholder on productqa, absent on uat. An id that resolves to nothing aborts the
+    # whole email build (bare Map.get(id).getText()), as the missing BP disclaimers did (uat 2026-11-09).
+    "com.bidgely.cloud.email.budgetAlert.disclaimer3": "",
+}
+# The Welcome email's section list as productqa 88004 users resolve it (from DCX; productqa's own PILOT value is an
+# empty placeholder). Without it a pilot falls back to the GLOBAL list [HEADER, GREETING, USER_WELCOME, CTA, FEEDBACK,
+# FOOTER]: the old header/greeting ("Smb様", Location.png), no TEASER / SINGLE_BUTTON, lowercase thumbs (uat 2026-11-09).
+# Same 9 sections, same order, duplicates of the DCX merge dropped. Written at PILOT only where the pilot inherits the
+# key from GLOBAL or has none; a PILOT/DCX/USER/CLUSTER value is left alone.
+WELCOME_SECTIONS = ["TEASER", "HEADER_V4", "GREETING_V2", "USER_WELCOME", "SINGLE_BUTTON", "CTA", "CHATBOT_CTA",
+                    "FEEDBACK_V4", "FOOTER_V4"]
+WELCOME_SECTION_LISTS = {
+    key: json.dumps([{"emailTemplateSection": s, "mandatory": False} for s in WELCOME_SECTIONS], separators=(",", ":"))
+    for key in ("USER_WELCOME.OPT_OUT", "USER_WELCOME.OPT_IN")
 }
 # Pilot keys any email may depend on, as productqa 88004 has them. MASTERPILOT-02 mds_bb.ensure_pilot_bb style:
 # only keys the pilot lacks are added (backed up first), an existing value is never changed. REQUIRED for every flow:
@@ -327,6 +385,35 @@ def plan(api: Api, flow: str | None = None) -> dict:
         p["optional"].append(f"{n} email-section config key(s) the reference pilot has are missing here, in "
                              f"{len(ref_gaps)} type(s) ({', '.join(sorted(ref_gaps)[:6])}{' ...' if len(ref_gaps) > 6 else ''})")
     config_gaps(api, MATCH_HAWK_CONFIGS, p["writes"], p["optional"])
+    pilot_strings = api.payload("GET", f"2.1/stringResources/pilot/{T.pilot}?locale=en_US", allow=(400, 404, 500))
+    if isinstance(pilot_strings, dict):
+        for rid, text in MATCH_HAWK_STRINGS.items():
+            if rid not in pilot_strings or str(pilot_strings.get(rid) or "") != text:   # absent is not blank
+                p.setdefault("string_writes", {})[rid] = text
+                p["optional"].append(f"pilot string {rid} resolves to {str(pilot_strings.get(rid))!r:.60}, "
+                                     f"productqa/Hawk hold {text!r}")
+    src = T.string_source or {}
+    is_reference = (src.get("env") == os.environ.get("MP04_ENV", "productqa") and int(src.get("pilot") or 0) == T.pilot)
+    sections_cfg = {} if is_reference else api.read_config("pilot", T.pilot, "email_template_sections_config")
+    for key, val in ({} if is_reference else WELCOME_SECTION_LISTS).items():   # never change the reference pilot (DCX)
+        c = sections_cfg.get(key) or {}
+        if c.get("configSource") in (None, "GLOBAL"):        # inherited or absent: the pilot has no list of its own
+            p["writes"].setdefault("email_template_sections_config", {})[key] = val
+            p["optional"].append(f"email_template_sections_config.{key} is inherited from "
+                                 f"{c.get('configSource') or 'nothing'}: Welcome uses the old section list "
+                                 "(productqa resolves the V4 list)")
+    for event, sfile in ({} if is_reference else SUBLEVEL_STRING_FILES).items():
+        if not sfile.is_file():
+            continue
+        want_sub = json.loads(sfile.read_text())
+        ent = f"{T.pilot}.{event}"
+        cur_sub = api.payload("GET", f"2.1/stringResources/pilot/{ent}?locale=en_US", allow=(400, 404, 500))
+        if isinstance(cur_sub, dict):
+            gaps = {rid: t for rid, t in want_sub.items() if rid not in cur_sub or str(cur_sub.get(rid) or "") != t}
+            if gaps:
+                p.setdefault("sublevel_string_writes", {})[ent] = gaps
+                p["optional"].append(f"{len(gaps)} of {len(want_sub)} {event} sub-level string(s) productqa "
+                                     f"overrides differ here ({', '.join(sorted(g.split('cloud.')[-1] for g in gaps)[:3])} ...)")
     nums = [by_name.get(n) for n in RATE_COMPARISON_PLANS]
     if all(nums):
         want = {str(n): [m for m in nums if m != n] for n in nums}
@@ -384,26 +471,69 @@ def set_ingestion_bucket(api: Api, run_dir: Path, log=print) -> None:
 
 
 def preflight(api: Api, run_dir: Path, log=print, ensure: bool = False, flow: str | None = None,
-              set_bucket: bool = False) -> None:
+              set_bucket: bool = False, allow_drift: bool = False, strings_only: bool = False) -> None:
     log(f"PREFLIGHT pilot {T.pilot} readiness on {T.name} (read-only unless --ensure-pilot-config is given)")
     if set_bucket:
         set_ingestion_bucket(api, run_dir, log)
     p = plan(api, flow)
     if p["fatal"]:
         raise SetupError("pilot not ready: " + "; ".join(p["fatal"]))
+    if strings_only:
+        # opt-in: write only the string resources (pilot and event sub-level); every config write and removal is left
+        # alone, e.g. configs that were set to other values on purpose
+        ensure = True
+        p["writes"], p["removals"] = {}, {}
+        log("  --ensure-strings-only: pilot configs are not written")
     if not ensure:
         for w in p["optional"]:
             log(f"  WARN: {w}")
-        if p["required"]:
+        if p["required"] and allow_drift:
+            # opt-in: the pilot was deliberately set to other values (e.g. to match productqa); run as it is
+            for r in p["required"]:
+                log(f"  WARN (allowed by --allow-pilot-drift): {r}")
+        elif p["required"]:
             raise SetupError("pilot not ready: " + "; ".join(p["required"]) +
-                             ". Re-run with --ensure-pilot-config to set them (pilot-level, backed up first)")
+                             ". Re-run with --ensure-pilot-config to set them (pilot-level, backed up first), "
+                             "or with --allow-pilot-drift to run with the pilot as it is")
         log(f"pilot {T.pilot}: ready" + (f" ({len(p['optional'])} WARN)" if p["optional"] else ""))
         return
-    if not p["writes"] and not p["removals"]:
+    string_writes = p.get("string_writes") or {}
+    sub_writes = p.get("sublevel_string_writes") or {}
+    if not p["writes"] and not p["removals"] and not string_writes and not sub_writes:
         log(f"pilot {T.pilot}: ready")
         return
     for ctype in sorted({*p["writes"], *p["removals"]}):
         backup(api, run_dir, ctype, log)
+    if string_writes:
+        before = api.payload("GET", f"2.1/stringResources/pilot/{T.pilot}?locale=en_US") or {}
+        bdir = run_dir / "pilot_config_backups"
+        bdir.mkdir(parents=True, exist_ok=True)
+        bfile = bdir / f"BACKUP_pilot{T.pilot}_strings_{datetime.now():%Y%m%d_%H%M%S}.json"
+        bfile.write_text(json.dumps({rid: before.get(rid) for rid in string_writes}, indent=1))
+        log(f"backed up pilot strings {sorted(string_writes)} -> {bfile}")
+        for rid, text in string_writes.items():
+            if not api.put_string(str(T.pilot), rid, text):
+                raise SetupError(f"could not write pilot string {rid} on pilot {T.pilot}")
+            log(f"pilot {T.pilot} string {rid}: wrote {text!r}")
+        after = api.payload("GET", f"2.1/stringResources/pilot/{T.pilot}?locale=en_US") or {}
+        bad = [rid for rid, text in string_writes.items() if str(after.get(rid) or "") != text]
+        if bad:
+            raise SetupError(f"pilot strings did not read back: {bad}")
+    for ent, gaps in sub_writes.items():                       # pilot-wide event sub-level, e.g. 88004.BILL_PROJECTION
+        before = api.payload("GET", f"2.1/stringResources/pilot/{ent}?locale=en_US") or {}
+        bdir = run_dir / "pilot_config_backups"
+        bdir.mkdir(parents=True, exist_ok=True)
+        bfile = bdir / f"BACKUP_{ent}_strings_{datetime.now():%Y%m%d_%H%M%S}.json"
+        bfile.write_text(json.dumps({rid: before.get(rid) for rid in gaps}, indent=1))
+        log(f"backed up {len(gaps)} string(s) of {ent} -> {bfile}")
+        for rid, text in gaps.items():
+            if not api.put_string(ent, rid, text):
+                raise SetupError(f"could not write string {rid} on {ent}")
+        log(f"{ent}: wrote {len(gaps)} string(s)")
+        after = api.payload("GET", f"2.1/stringResources/pilot/{ent}?locale=en_US") or {}
+        bad = [rid for rid, text in gaps.items() if str(after.get(rid) or "") != text]
+        if bad:
+            raise SetupError(f"{ent} strings did not read back: {bad}")
     for ctype, kv in p["writes"].items():
         api.call("POST", f"entities/{T.pilot}/configs", {"configType": ctype, "configKVs": [
             {"configKey": k, "configVal": v, "configDataType": "TEXT", "configRegex": "(?s).*",
@@ -412,6 +542,9 @@ def preflight(api: Api, run_dir: Path, log=print, ensure: bool = False, flow: st
     for ctype, keys in p["removals"].items():
         api.call("DELETE", f"v2.0/configs/{ctype}/pilot/{T.pilot}", keys)
         log(f"pilot {T.pilot} {ctype}: removed {len(keys)} empty key(s)")
+    if strings_only:
+        log(f"pilot {T.pilot}: strings set and read back")
+        return
     left = plan(api, flow)
     if left["required"]:                       # warnings (optional) are reported, not treated as a failed write
         raise SetupError("pilot config did not read back: " + "; ".join(left["required"]))

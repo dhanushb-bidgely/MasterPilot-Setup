@@ -1,0 +1,23 @@
+{
+ "com.bidgely.cloud.email.cta.with.des.section.url1.text": "Find out more about your usage",
+ "com.bidgely.cloud.email.cta.with.des.section.url2.text": "Learn more about Time of Use (TOU)",
+ "com.bidgely.cloud.email.cta.with.des.section.url3.text": "Update your Home Profile",
+ "com.bidgely.cloud.email.cta.with.des.section.url4.text": "How do we know your electricity breakdown?",
+ "com.bidgely.cloud.email.disclaimer1": "",
+ "com.bidgely.cloud.email.disclaimer2": "All dollar amounts are rounded to the nearest dollar and represent actual electric usage. Monthly service charges, fees, additional services taxes, etc are not included.",
+ "com.bidgely.cloud.email.greeting.summary.web.url.ms.text.solar": "",
+ "com.bidgely.cloud.email.itemization.title.text.ami": "Your total estimated energy use by appliance",
+ "com.bidgely.cloud.email.monthly.usage.title.total.same": "Your monthly usage is same as previous month",
+ "com.bidgely.cloud.email.ms.amountText": "Amount",
+ "com.bidgely.cloud.email.ms.amountText.ami.elec": "Total Amount",
+ "com.bidgely.cloud.email.ms.newService.title.text": "Welcome to your new Home Energy Report from Energy Co.",
+ "com.bidgely.cloud.email.ms.usage.summary.title.solar": "Your Bill Summary",
+ "com.bidgely.cloud.email.newRecoUI.MonthlySummary.headLine": "Personalized tips for you",
+ "com.bidgely.cloud.email.sentences.energy.charge.text": "Energy charges don't include taxes, fixed charges, rebates, or credits, and therefore may be different than your total bill amount.",
+ "com.bidgely.cloud.email.sentences.homeProfileTitle": "Update your home profile",
+ "com.bidgely.cloud.email.solar.disclaimer": "All usage amounts are rounded to the nearest whole number.",
+ "com.bidgely.cloud.email.solar.energy.flow.import.title": "You used ${import_amount} kWh more than you generated last period",
+ "com.bidgely.cloud.email.usage.chart.summary.web.url.ms.text": "",
+ "com.bidgely.cloud.plan191.rate.structure.title.text": "Remember — Peak hours are expensive and Off Peak hours are much cheaper",
+ "com.bidgely.cloud.plannumber.191.rate.structure.description.text": "Remember — Peak hours are expensive and Off Peak hours are much cheaper"
+}

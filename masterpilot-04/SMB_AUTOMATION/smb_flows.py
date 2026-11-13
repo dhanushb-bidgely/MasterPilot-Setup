@@ -1219,7 +1219,36 @@ FLOWS = {'welcome': {'title': 'Test SMB Welcome Email for an Electric AMI OPT OU
                                      'notificationUserType': 'OPT_OUT'}),
                                    ('set_bill_cycle', {'processHandle': 'offset', 'offsetDurationFromToday': -4}),
                                    ('user_configs',
-                                    [{'entityType': 'user',
+                                    [
+                                     # Productqa serves TOU users a different Bill Projection section list through DCX
+                                     # (TOU_BILL_SAVING_RECO in, UPDATE_BUDGET_AMOUNT out). Uat has no DCX list, so a TOU
+                                     # user got the generic pilot list and an extra "Stay informed. Set your budget" block
+                                     # (uat 2026-11-10). Same 9 sections as productqa's TOU reference user, at user scope.
+                                     {'entityType': 'user',
+                                      'configType': 'email_template_sections_config',
+                                      'configKey': 'BILL_PROJECTION.OPT_OUT',
+                                      'configVal': '[{"emailTemplateSection":"TEASER","mandatory":false},'
+                                                   '{"emailTemplateSection":"HEADER_V4","mandatory":false},'
+                                                   '{"emailTemplateSection":"GREETING_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"BILL_PROJECTION_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"ENERGY_SAVINGS_TIPS_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"TOU_BILL_SAVING_RECO","mandatory":false},'
+                                                   '{"emailTemplateSection":"CTA_WITH_DES_SECTION_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"FEEDBACK_V4","mandatory":false},'
+                                                   '{"emailTemplateSection":"FOOTER","mandatory":false}]'},
+                                     {'entityType': 'user',
+                                      'configType': 'email_template_sections_config',
+                                      'configKey': 'BILL_PROJECTION.OPT_IN',
+                                      'configVal': '[{"emailTemplateSection":"TEASER","mandatory":false},'
+                                                   '{"emailTemplateSection":"HEADER_V4","mandatory":false},'
+                                                   '{"emailTemplateSection":"GREETING_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"BILL_PROJECTION_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"ENERGY_SAVINGS_TIPS_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"TOU_BILL_SAVING_RECO","mandatory":false},'
+                                                   '{"emailTemplateSection":"CTA_WITH_DES_SECTION_V2","mandatory":false},'
+                                                   '{"emailTemplateSection":"FEEDBACK_V4","mandatory":false},'
+                                                   '{"emailTemplateSection":"FOOTER","mandatory":false}]'},
+                                     {'entityType': 'user',
                                       'configType': 'event_subscriptions.BILL_PROJECTION',
                                       'configKey': 'delivery_modes',
                                       'configVal': '[]'},
@@ -1871,6 +1900,12 @@ FLOWS = {'welcome': {'title': 'Test SMB Welcome Email for an Electric AMI OPT OU
                                       'subject': "You've reached 75% of your budget amount.",
                                       'maxWaitMinutes': 90,
                                       'retryCount': 90,
+                                      # The alert fires from the ingestion-driven pass that sees the budget. REST
+                                      # run/aggregations deletes every aggregate and rebuilds with notifications off
+                                      # (see the flow's earlier "No runAggregations" note), so the wait must not call it
+                                      # when the first poll finds nothing: on uat (slower pipeline) that wiped the alert
+                                      # (2026-11-09). Productqa's email lands inside the 300 s sleep, so it never fired there.
+                                      'triggerAggregations': False,
                                       'measurementType': 'GAS'})]},
  'tou_onboarding': {'title': 'Test SMB TOU Rate Onboarding Email after the plan moves SMB_GS_STANDARD -> SMB_GS_TOU '
                              '(962)',
@@ -2765,3 +2800,81 @@ FLOWS = {'welcome': {'title': 'Test SMB Welcome Email for an Electric AMI OPT OU
                                                 ('sleep',
                                                  {'message': 'Waiting for 180 seconds to let Aggregation complete',
                                                   'sleepForSeconds': '180'})]}}
+
+
+
+def _derive_ms_gas_ami_no_itemization_gas_chart() -> dict:
+    """monthly_summary_gas_ami with the section list productqa 88004 resolves for gas users (AMI and NSM, 2026-11-12)
+    minus ITEMIZATION (not supported for gas). It uses the gas bar chart MONTHLY_USAGE_HISTORY_CHART, not the electric
+    MONTHLY_USAGE_HISTORY_CHART_V2 that threw ClassCastException (isChartDataPresent:232) for gas users on UAT."""
+    import copy
+    import json
+    flow = copy.deepcopy(FLOWS['monthly_summary_gas_ami'])
+    flow['title'] = flow['title'] + ' without itemization, with the gas usage history chart'
+    sections = ["TEASER", "HEADER_V4", "NEW_SERVICE_V2", "GREETING_V2", "MONTHLY_SUMMARY_V2", "ENVIRONMENT_IMPACT",
+                "SPONSORED_RECO_V2", "ENERGY_SAVINGS_TIPS_V2", "MONTHLY_USAGE_HISTORY_CHART", "CTA_WITH_DES_SECTION_V2",
+                "FEEDBACK_V4", "FOOTER_V4"]
+    val = json.dumps([{"emailTemplateSection": s, "mandatory": False} for s in sections], separators=(",", ":"))
+    extra = [{'entityType': 'user', 'configType': 'email_template_sections_config', 'configKey': f'MONTHLY_SUMMARY.{u}',
+              'configVal': val} for u in ('OPT_IN', 'OPT_OUT')]
+    for i, (name, cfg) in enumerate(flow['steps']):
+        if name == 'user_configs':
+            flow['steps'][i] = (name, list(cfg) + extra)
+            break
+    return flow
+
+
+FLOWS['monthly_summary_gas_ami_no_itemization_gas_chart'] = _derive_ms_gas_ami_no_itemization_gas_chart()
+
+
+def _derive_ms_gas_nsm_no_itemization_gas_chart() -> dict:
+    """monthly_summary_gas_nsm with productqa 88004's resolved gas section list (same for AMI and NSM, 2026-11-12) minus
+    ITEMIZATION (not supported for gas), keeping the gas bar chart MONTHLY_USAGE_HISTORY_CHART."""
+    import copy
+    import json
+    flow = copy.deepcopy(FLOWS['monthly_summary_gas_nsm'])
+    flow['title'] = flow['title'] + ' without itemization, with the gas usage history chart'
+    sections = ["TEASER", "HEADER_V4", "NEW_SERVICE_V2", "GREETING_V2", "MONTHLY_SUMMARY_V2", "ENVIRONMENT_IMPACT",
+                "SPONSORED_RECO_V2", "ENERGY_SAVINGS_TIPS_V2", "MONTHLY_USAGE_HISTORY_CHART", "CTA_WITH_DES_SECTION_V2",
+                "FEEDBACK_V4", "FOOTER_V4"]
+    val = json.dumps([{"emailTemplateSection": s, "mandatory": False} for s in sections], separators=(",", ":"))
+    extra = [{'entityType': 'user', 'configType': 'email_template_sections_config', 'configKey': f'MONTHLY_SUMMARY.{u}',
+              'configVal': val} for u in ('OPT_IN', 'OPT_OUT')]
+    for i, (name, cfg) in enumerate(flow['steps']):
+        if name == 'user_configs':
+            flow['steps'][i] = (name, list(cfg) + extra)
+            break
+    else:
+        raise RuntimeError('monthly_summary_gas_nsm has no user_configs step')
+    return flow
+
+
+FLOWS['monthly_summary_gas_nsm_no_itemization_gas_chart'] = _derive_ms_gas_nsm_no_itemization_gas_chart()
+
+
+def _gas_ms_billing_charges_fix():
+    """Gas Monthly Summary dies in the emailer with `Variable $monthlyUsageEnergyUsageChargesTextKey has not been set at
+    sections/monthly_summary_section_v2.vm[line 151]` (productqa 88004, 2026-11-13): the pilot has
+    email_monthly_summary_section_configs.show_billing_charges_in_billing_section=true and the gas bill-cost breakdown has
+    an energy-usage charge, but MonthlySummarySectionContentProvider.getMonthSummaryTemplateData only sets the charges text
+    keys for electric/water, never for gas. User scope false hides the block (both gas MS emails rendered one minute after
+    the write). Product fix: populate the keys for GAS too."""
+    entry = {'entityType': 'user', 'configType': 'email_monthly_summary_section_configs',
+             'configKey': 'show_billing_charges_in_billing_section', 'configVal': 'false'}
+    for key in ('monthly_summary_gas_ami_no_itemization_gas_chart', 'monthly_summary_gas_nsm_no_itemization_gas_chart'):
+        steps = FLOWS[key]['steps']
+        for i, (name, cfg) in enumerate(steps):
+            if name == 'user_configs' and isinstance(cfg, list):
+                if not any(c.get('configKey') == entry['configKey'] for c in cfg):
+                    steps[i] = (name, cfg + [dict(entry)])
+                break
+
+
+_gas_ms_billing_charges_fix()
+
+
+# The plain gas Monthly Summary flows (pilot default section list: ITEMIZATION never renders for SMB gas, so the section
+# audit E04 fails) are retired: only the two *_no_itemization_gas_chart flows above are runnable. The dicts stay in this
+# file only as the template those two are derived from.
+for _retired in ('monthly_summary_gas_ami', 'monthly_summary_gas_nsm'):
+    FLOWS.pop(_retired, None)
